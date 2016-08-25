@@ -1,0 +1,14 @@
+{
+  "name": "recognizhuyin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "read.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "jszhuyin": "^1.1.1"
+  },
+}
