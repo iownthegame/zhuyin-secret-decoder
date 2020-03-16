@@ -55,4 +55,5 @@ for s in string:
 print new_string
 
 from subprocess import call
-call(["node", "--harmony_destructuring", "read.js", new_string])
+# call(["node", "--harmony_destructuring", "read.js", new_string])
+call(["node", "read.js", new_string])
