@@ -1,0 +1,143 @@
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-fork-ribbon-css/0.2.3/gh-fork-ribbon.min.css" />
+    <link rel="stylesheet" href="./css/index.css?20">
+    <script src="https://kit.fontawesome.com/66aa71580a.js" crossorigin="anonymous"></script>
+  </head>
+  <body class="text-center">
+    <a class="github-fork-ribbon" href="https://github.com/iownthegame/zhuyin-secret-decoder" data-ribbon="Fork me on GitHub" title="Fork me on GitHub">Fork me on GitHub</a>
+
+    <div class="grid">
+      <div class="row">
+        <div class="form col col-md-12">
+          <form class="form-zhuyin">
+            <img class="mb-4" src="./img/bpmf.svg" alt="" width="72" height="72">
+            <h1 class="h3 mb-3 font-weight-normal">注音文解密工具</h1>
+            <h1 class="h6 mb-3 font-weight-normal">把「ji3vu;3z;4qu4」轉成看得懂的中文</h1>
+            <input type="text" id="inputText" class="form-control" placeholder="ji3vu;3z;4qu4" required="" autofocus="">
+            <button class="btn btn-lg btn-block btn-info" id="btnSubmit" type="submit">Go</button>
+          </form>
+        </div>
+        <div class="arrow col col-md-2">
+          <div>
+            <i class="fas fa-arrow-circle-right"></i>
+          </div>
+        </div>
+        <div class="result col col-md-5">
+          <div class="detail">
+            <h4 class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted">結果</span>
+            </h4>
+            <ul class="list-group mb-3">
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                  <div class="text-muted text-left title">注音</div>
+                  <h6 class="text zhuyin"></h6>
+                </div>
+              </li>
+              <li class="list-group-item d-flex justify-content-between lh-condensed">
+                <div>
+                  <div class="text-muted text-left title">繁體中文</div>
+                  <h6 class="text chinese"></h6>
+                </div>
+              </li>
+            </ul>
+            <button class="btn btn-lg btn-block btn-info" id="btnReplay">重新玩</button>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col col-md-12 col-xs-12">
+          <p class="mt-5 mb-3 text-muted">© 2020 IOWNTHEGAME</p>
+        </div>
+      </div>
+    </div>
+
+
+    <script
+    src="https://code.jquery.com/jquery-3.4.1.min.js"
+    integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+    crossorigin="anonymous"></script>
+
+    <script>
+      function showResult() {
+        $("#btnSubmit").hide()
+        $("#inputText").prop('readonly', true)
+        $(".col.form").removeClass("col-md-12").addClass("col-md-5")
+        $(".col.form .form-zhuyin").addClass("right")
+
+        $(".col.arrow").show().css('display', 'flex')
+        $(".col.result").show()
+      }
+
+      function hideResult() {
+        $("#btnSubmit").show()
+        $("#inputText").prop('readonly', false).val('').focus()
+        $(".col.form").removeClass("col-md-5").addClass("col-md-12")
+        $(".col.form .form-zhuyin").removeClass("right"
+        )
+        $(".col.arrow").hide()
+        $(".col.result").hide()
+      }
+
+      function sendRequest(url, callback) {
+        $.get(url, handleResponse)
+        // handleResponse({})
+
+        function handleResponse(data) {
+          console.log(data)
+          if (callback) {
+            callback(data)
+          }
+        }
+      }
+
+      function processInput() {
+        let value = $("#inputText").val()
+        let url = `http://localhost:8000/api?key=${encodeURIComponent(value)}`
+
+        sendRequest(url, function(data) {
+          // console.log(data)
+          if (data.status === 0) {
+            const zhuyinElement = $(".col.result .detail .text.zhuyin")
+            const chineseElement = $(".col.result .detail .text.chinese")
+
+            if (data.zhuyin) {
+              zhuyinElement.text(data.zhuyin).removeClass("error")
+            } else {
+              zhuyinElement.text("無法辨別成注音符號").addClass("error")
+            }
+
+            if (data.chinese) {
+              chineseElement.text(data.chinese).removeClass("error")
+            } else {
+              chineseElement.text("無法辨別成繁體中文").addClass("error")
+            }
+          }
+
+          // $(".col.result .detail .text.zhuyin").text('ㄐㄧㄣㄊㄧㄢㄊㄧㄢㄑㄧˋㄓㄣㄏㄠˇ')
+          // $(".col.result .detail .text.chinese").text('今天天氣真好')
+
+          showResult()
+        });
+      }
+
+      $(document).ready(function() {
+        $(".form-zhuyin").on("keydown", function(event) {
+          if (event.key !== "Enter") return
+          processInput()
+        });
+
+        $(".form-zhuyin").on('submit', function(e) {
+          e.preventDefault()
+          processInput()
+        })
+
+        $("#btnReplay").on("click", hideResult)
+      });
+    </script>
+  </body>
+</html>
