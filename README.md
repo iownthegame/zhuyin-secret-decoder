@@ -1,8 +1,14 @@
 # Zhuyin-Secret-Decoder
-
 This tools is for someone who intends to use Zhuyin input method but results in English alphabet, or for someone who wants to decode the secret messages into Madarin. The application takes the English alphabet as input, matches one by one to its original keys represented as Zhuyin characters, finally leverages the Zhuyin input method to get the best fit Madarin characters.
 
 這個工具的啟發來自於某些人想要用注音輸入法但是不小心打成英文，或是某些人想要解碼出別人傳來的加密亂碼。這個應用程式運用使用者輸入的英文字母，一對一轉成鍵盤上對應的注音符號，最後利用注音輸入法來找出最適合對應的中文字。
+
+## Documentation
+* [Definition](#zhuyin-definition-in-wikipedia)
+* [Demo](#demo)
+* [Installation](#installation)
+* [Resources](#resources)
+* [Similar Tools](#similar-tools)
 
 ## "Zhuyin" Definition in [Wikipedia](https://en.wikipedia.org/wiki/Bopomofo)
 > Zhuyin, a.k.a "Bopomofo", or Mandarin Phonetic Symbols, is the major Chinese transliteration system for Mandarin Chinese and other related languages and dialects which is nowadays most commonly used in Taiwanese Mandarin Consisting of 37 characters such as ㄅ, ㄆ, ㄇ, ㄈ and four tone marks, it transcribes all possible sounds in Mandarin.
